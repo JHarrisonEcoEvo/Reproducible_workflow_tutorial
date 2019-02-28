@@ -99,7 +99,6 @@ A benefit of \LaTeX\  is easy, streamlined citation incorporation. You can sourc
 RECOMMENDED: You can also link your citation manager to your Overleaf project. See how to do that by clicking \href{https://www.overleaf.com/learn/latex/Bibliography_management_with_bibtex}{here.} This is very handy since you can simply refresh as needed to quickly bring new citations into your manuscript. Note where we define the bibliography after the acknowledgements. At that point we specify style. You can download citation styles for many journals, so never reformat citations by hand!
 
 \section{Methods}
-Check it out, we did XYZ
 
 \section{Results}
 Here are is our scatter plot (Fig.~\ref{fig:scatterplot}). Note that the number of the figure is automatically updated based on its order in the figure section. This is another handy thing about \LaTeX. One does not have to worry about accidentally misnumbering a figure in the text after moving figures around (particularly nice for those pesky supplemental figures that often get misnumbered).
@@ -177,7 +176,10 @@ https://bitbucket.org/harrisonjg/asle\_microbiome\_manipulation/src/master/
 \setcounter{table}{0} \renewcommand{\thetable}{S\arabic{table}}
 \setcounter{figure}{0} \renewcommand{\thefigure}{S\arabic{figure}}
 
-
+R scripts used follow. Note that much cleaner output can be generated using R Markdown. Please see Jessi Rick's tutorial (linked above) for information on how to do that. 
 %Here is how to include R scripts, or any other text file verbatim. 
 \verbatiminput{linearModel.R}
+
+\verbatiminput{scatterplot.R}
+
 \end{document}
