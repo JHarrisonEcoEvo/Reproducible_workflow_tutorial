@@ -1,4 +1,6 @@
 library(xtable)
+#linearModel.R
+#J. G. Harrison
 
 dat <- read.csv("./data/testdata.csv")
 
