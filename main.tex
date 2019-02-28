@@ -31,6 +31,7 @@
 \usepackage{rotating}
 \usepackage{float} %to get displays to stay where one puts them
 \usepackage{hyperref} %use this to add URLs conveniently
+\usepackage{verbatim} %Use to paste txt files into document verbatim 
 
 %%%%%%%%%%%%%%%%%%%%%%
 % Begin the document %
@@ -101,7 +102,9 @@ RECOMMENDED: You can also link your citation manager to your Overleaf project. S
 Check it out, we did XYZ
 
 \section{Results}
-Here are the results from X (Fig.~\ref{fig:scatterplot}). Note that the number of the figure is automatically updated based on its order in the figure section.
+Here are is our scatter plot (Fig.~\ref{fig:scatterplot}). Note that the number of the figure is automatically updated based on its order in the figure section. This is another handy thing about \LaTeX. One does not have to worry about accidentally misnumbering a figure in the text after moving figures around (particularly nice for those pesky supplemental figures that often get misnumbered).
+
+Here are some made up results (Table.~\ref{table:simpleExample}) and also check out results from our linear regression (Table.~\ref{table:lm_results}). The cool thing here is that for the latter table we output the results straight from R via the xtable package. This package takes a matrix object and converts it into the appropriate format for \LaTeX\ (see the associated R script linearModel.R in the Supplemental Material).
 
 \section{Discussion}
 
@@ -174,4 +177,7 @@ https://bitbucket.org/harrisonjg/asle\_microbiome\_manipulation/src/master/
 \setcounter{table}{0} \renewcommand{\thetable}{S\arabic{table}}
 \setcounter{figure}{0} \renewcommand{\thefigure}{S\arabic{figure}}
 
+
+%Here is how to include R scripts, or any other text file verbatim. 
+\verbatiminput{linearModel.R}
 \end{document}
