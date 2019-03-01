@@ -1,5 +1,4 @@
 dat <- read.csv("./data/testdata.csv")
-
  
 pdf(width = 8, 
     height = 8,
