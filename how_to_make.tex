@@ -167,12 +167,14 @@ scatterplot.R: ./data/testdata.csv\\
 
 Note that we assign a variable, called ``send\_overleaf'', to perform git commit and git push for us. The part of the code that says \$\textasciicircum\ is an automatic variable that stands for all the dependent files. The \$$@$ is an automatic variable that stands for the target. So we are saying we want to commit and push the dependent and target files. Lots of other automatic variables exist. See Karl Broman's example (\url{https://kbroman.org/minimal_make/} for more.
 
-For bonus points check out the behemoth {\sf Make} documentation (\url{https://www.gnu.org/software/make/manual/make.html}). One can probably find all sorts of time saving tricks within, however keep in mind that simple makefiles are easy to glance at and understand. Even for collaborators that don't use {\sf Make}, they can probably figure out what is going on. If one adds too much to a makefile, then it could become a bit onerous to interpret. Interpretability is better than code compactness.
-
-
 \subsubsection{How to run {\sf Make}}
 
 Once you have a makefile in place, that works. All one has to do to run it, is navigate to the directory with the file and type ``make'' on the command line. That is it! The makefile will execute and any targets with dependencies that have changed will rebuild. 
+
+\subsubsection{More than you will ever want to know}
+
+For bonus points check out the behemoth {\sf Make} documentation (\url{https://www.gnu.org/software/make/manual/make.html}). One can probably find all sorts of time saving tricks within, however keep in mind that simple makefiles are easy to glance at and understand. Even for collaborators that don't use {\sf Make}, they can probably figure out what is going on. If one adds too much to a makefile, then it could become a bit onerous to interpret. Interpretability is better than code compactness.
+
 \subsubsection{Proof that all of this works--for the skeptics}
 
 First, clone the {\sf git} repo at \url{https://github.com/JHarrisonEcoEvo/Reproducible_workflow_tutorial}.
