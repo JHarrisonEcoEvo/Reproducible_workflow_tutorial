@@ -1,6 +1,6 @@
 #Very simple example of Make. See https://kbroman.org/minimal_make for more
 
-send_overleaf=git commit -m "auto commit from make" $(<F) $@;/git push
+send_overleaf=git commit -m "auto commit from make" $^ $@;git push
 
 manuscript.pdf: main.tex
 	pdflatex -jobname=manuscript main.tex
