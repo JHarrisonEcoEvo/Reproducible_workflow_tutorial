@@ -79,34 +79,36 @@
 %%%%%%%%%%%%%%%%%%%%
 
 \section*{Abstract}
-How to use Make, Git, R, and \LaTeX to do great things (more than once).
-
+The greatest study ever!
 
 
 \begin{linenumbers} %Turn on line numbering.
-\section{Introduction}
+\section*{Introduction} %The * turns off section numbering. 
+
 This document serves as an example of how to make a reproducible workflow--from R to manuscript. 
-For this example, you must link your Overleaf project to a git repo, then link your R project to the same repo. For more on how to do this see Jessi Rick's tutorial \href{https://github.com/jessicarick/resources}{(click here)}
+For this example, you must link your Overleaf project to a git repo, then link your R project to the same repo. For more on how to do this see Jessi Rick's tutorial \href{https://github.com/jessicarick/resources}{(click here)}.
 
-Throughout the source code of this \LaTeX\ document I will add tips and example code that may help or function as a template. Because of the latter goal, I have included section headers and other information here to save folks from extra typing when they go to make their own manuscript.
-
+The figure and one of the tables in this manuscript are R script outputs. We run Make to update these and our manuscript. See the document ``How to use Make'' that is in this repo for more. 
 \begin{center}
-    \emph{Why use Latex}
+    \emph{Why use \LaTeX?}
 \end{center}
 
-A benefit of \LaTeX\  is easy, streamlined citation incorporation. You can source a bib file and make use of any of the citations therein with the citep, citet, citalt, and other cite commands. For more \href{https://www.imperial.ac.uk/media/imperial-college/administration-and-support-services/library/public/LaTeX-and-BibTeX-branded-jan-2016.pdf}{click (here)}
+As you will see, \LaTeX\ helps with reproducibility, saves you time inputting results into your manuscript, keeps you from screwing up stuff like adding data to tables or misnumbering figures, makes it easy to format a manuscript however you want, avoid having figures move around like they do in Word, avoid the damnable compression algorithm that Word uses that makes your figures look like crap, keep you from writing or formatting citations, allow you to format your manuscript as required for your journal with minimal effort using style templates, write waaay better math (this alone could be a selling point, if you do the math), built in version control with Overleaf, the ability to build document classes for templates that you commonly use, like reference/cover letters....probably more stuff that I am not remembering. 
 
-RECOMMENDED: You can also link your citation manager to your Overleaf project. See how to do that by clicking \href{https://www.overleaf.com/learn/latex/Bibliography_management_with_bibtex}{here.} This is very handy since you can simply refresh as needed to quickly bring new citations into your manuscript. Note where we define the bibliography after the acknowledgements. At that point we specify style. You can download citation styles for many journals, so never reformat citations by hand!
+However, \LaTeX\ has a bit of a learning curve that can be frustrating at first. Persevere, get comfortable Googling stuff that you can't figure out, and soon you would rather write a paper with one hand then go back to using Word. 
 
-Another benefit of \LaTeX\ is that is way easier to write complicated math. This is not the place to go into how to do that, but if you are going to write mathy papers then \LaTeX\ is the way to go.
-\section{Methods}
+As mentioned, a benefit of \LaTeX\  is easy, streamlined citation incorporation. You can source a bib file and make use of any of the citations therein with the citep, citet, citalt, and other cite commands. For more \href{https://www.imperial.ac.uk/media/imperial-college/administration-and-support-services/library/public/LaTeX-and-BibTeX-branded-jan-2016.pdf}{click (here)}
 
-\section{Results}
+RECOMMENDED: You can also link your citation manager to your Overleaf project. See how to do that by clicking \href{https://www.overleaf.com/learn/latex/Bibliography_management_with_bibtex}{(here)}. This is very handy since you can simply refresh as needed to quickly bring new citations into your manuscript. Note where we define the bibliography after the acknowledgements. At that point we specify style. You can download citation styles for many journals, so never reformat citations by hand!
+
+\section*{Methods}
+
+\section*{Results}
 Here are is our scatter plot (Fig.~\ref{fig:scatterplot}). Note that the number of the figure is automatically updated based on its order in the figure section. This is another handy thing about \LaTeX. One does not have to worry about accidentally misnumbering a figure in the text after moving figures around (particularly nice for those pesky supplemental figures that often get misnumbered).
 
 Here are some made up results (Table.~\ref{table:simpleExample}) and also check out results from our linear regression (Table.~\ref{table:lm_results}). The cool thing here is that for the latter table we output the results straight from R via the xtable package. This package takes a matrix object and converts it into the appropriate format for \LaTeX\ (see the associated R script linearModel.R in the Supplemental Material).
 
-\section{Discussion}
+\section*{Discussion}
 
 \section*{Acknowledgments}
 Funding was provided by XXXX. Computing was performed in the Teton Computing Environment at the Advanced Research Computing Center, University of Wyoming, Laramie (https://doi.org/10.15786/M2FY47).
@@ -126,7 +128,6 @@ All scripts and processed data are available at:
 %%%%%%%%%%%%%%%%%%%%%%
 % Figures and tables %
 %%%%%%%%%%%%%%%%%%%%%%
-
 
 \pagebreak
 \begin{figure}[H]
