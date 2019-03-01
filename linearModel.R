@@ -5,6 +5,7 @@ library(xtable)
 
 dat <- read.csv("./data/testdata.csv")
 
+
 reg <- lm(dat$rnorm.100..100. ~ dat$rnorm.100..10.)
 
 #NOTE that it is very helpful to label your tables and figures so that you can
