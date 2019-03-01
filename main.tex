@@ -1,6 +1,7 @@
 %Set up the document and load packages
 \documentclass[letterpaper, 12pt]{article}
 
+
 %---------------------------------------- + ---- + ---- + ---- + 
 \setlength{\parskip}{1ex plus0.5ex minus0.5ex}
 \setlength{\textheight}{9.0in}
@@ -132,7 +133,8 @@ All scripts and processed data are available at:
 \pagebreak
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{./results/scatterplot.pdf}
+    %NOTE: using natwidth,natheight is clunky, but allows this file to be compiled without error by pdflatex. If you don't use pdflatex, then don't use these options
+    \includegraphics[width=0.9\linewidth, natwidth=8in,natheight=8in]{./results/scatterplot.pdf}
   \captionsetup{width=0.75\textwidth}
   \caption{A scatterplot of some random data}
     	\label{fig:scatterplot} %Use this label to reference the figure in the text.
@@ -146,7 +148,7 @@ All scripts and processed data are available at:
 	\label{table:simpleExample}
 	\begin{tabular}{ccc} %lrc means left, right, or center justified
     \hline
-	Treatement 1 & Treatment 2 & Sample size \\
+	Treatment 1 & Treatment 2 & Sample size \\
     \hline
 	 Yes & Yes & 62\\
 	 Yes & No & 68\\
