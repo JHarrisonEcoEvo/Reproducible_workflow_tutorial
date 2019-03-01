@@ -101,7 +101,7 @@ The repository at \url{https://github.com/JHarrisonEcoEvo/Reproducible_workflow_
 Navigate to the cloned example directory and open the Makefile (use {\sf less} or a text editor). It should look like this (with a few additions not shown here): 
 \newcommand\tab[1][1cm]{\hspace*{#1}}
 
-\noindent manuscript.pdf: main.tex\\
+\noindent manuscript.pdf: main.tex linearModel.R scatterplot.R ./data/testdata.csv\\
 \tab pdflatex -jobname=manuscript main.tex
 
 \noindent main.tex: linearModel.R scatterplot.R\\
@@ -138,18 +138,19 @@ target: dependency\\
 
 Note, this is just an example, in this case it would make more sense to just put the whole relative path to the script in the call to {\sf Rscript} (i.e. Rscript ./R/myprogram.R"
 
-\subsubsection{Adding {\sf git} to our makefile}
+\subsubsection{Adding {\sf git} to our Makefile}
 
-Lets say we want to commit and push any changes to any file whenever we build. NOTE: this may not be ideal for many reasons, including 1.) one normally does not want to commit every single change, however small; 2.) the easiest way to auto commit and push is to use a standard commit message, which is not helpful at all when looking through ones version history. That said, I often edit work locally, then need to push it to {\sf Overleaf} and the convenience of doing this automatically in the makefile trumps the very real concerns I note above. For important script commits, or data commits, it is wise to provide a more detailed commit message!
+Lets say we want to commit and push any changes to any file whenever we build. NOTE: this may not be ideal for many reasons, including 1.) one normally does not want to commit every single change, however small; 2.) the easiest way to auto commit and push is to use a standard commit message, which is not helpful at all when looking through ones version history. That said, I often edit work locally, then need to push it to {\sf Overleaf} and the convenience of doing this automatically in the Makefile trumps the very real concerns I note above. For important script commits, or data commits, it is wise to provide a more detailed commit message!
 
-Caveats aside, one way to call {\sf git} as needed is to make a variable in the makefile. A variable can save quite a bit of typing (and of course you could get quite creative with variables, if desired).
+Caveats aside, one way to call {\sf git} as needed is to make a variable in the Makefile. A variable can save quite a bit of typing (and of course you could get quite creative with variables, if desired).
 
-We can augment our original makefile, thus:
+We can augment our original Makefile, thus:
 
 send\_overleaf=git commit -m "auto commit from make" \$\textasciicircum\ \$$@$;git push
 
-manuscript.pdf: main.tex\\
+manuscript.pdf: main.tex linearModel.R scatterplot.R ./data/testdata.csv\\
 \tab pdflatex -jobname=manuscript main.tex
+\tab \${send\_overleaf}
 
 main.tex: linearModel.R scatterplot.R\\
 \tab Rscript linearModel.R\\
@@ -169,23 +170,11 @@ Note that we assign a variable, called ``send\_overleaf'', to perform git commit
 
 \subsubsection{How to run {\sf Make}}
 
-Once you have a makefile in place, that works. All one has to do to run it, is navigate to the directory with the file and type ``make'' on the command line. That is it! The makefile will execute and any targets with dependencies that have changed will rebuild. 
+Once you have a Makefile in place, that works. All one has to do to run it, is navigate to the directory with the file and type ``make'' on the command line. That is it! The Makefile will execute and any targets with dependencies that have changed will rebuild. 
 
 \subsubsection{More than you will ever want to know}
 
-For bonus points check out the behemoth {\sf Make} documentation (\url{https://www.gnu.org/software/make/manual/make.html}). One can probably find all sorts of time saving tricks within, however keep in mind that simple makefiles are easy to glance at and understand. Even for collaborators that don't use {\sf Make}, they can probably figure out what is going on. If one adds too much to a makefile, then it could become a bit onerous to interpret. Interpretability is better than code compactness.
-
-\subsubsection{Proof that all of this works--for the skeptics}
-
-First, clone the {\sf git} repo at \url{https://github.com/JHarrisonEcoEvo/Reproducible_workflow_tutorial}.
-
-Next, note the timestamp on all the files. 
-
-First, change something in main.tex and run make. Only the manuscript and main.tex files will change in timestamp. 
-
-Do the same thing for one of the R scripts. The R script, main.tex, and manuscript files timestamps will change. 
-
-Ditto for the data. 
+For bonus points check out the behemoth {\sf Make} documentation (\url{https://www.gnu.org/software/make/manual/make.html}). One can probably find all sorts of time saving tricks within, however keep in mind that simple Makefiles are easy to glance at and understand. Even for collaborators that don't use {\sf Make}, they can probably figure out what is going on. If one adds too much to a Makefile, then it could become a bit onerous to interpret. Interpretability is better than code compactness.
 
 \end{document}
 
