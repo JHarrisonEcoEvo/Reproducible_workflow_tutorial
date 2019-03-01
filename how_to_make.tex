@@ -14,6 +14,8 @@
 \usepackage{microtype}      % microtypography
 \usepackage{hyperref}       % writing URLs
 \usepackage{parskip}
+\usepackage{verbatim} %Use to paste txt files into document verbatim 
+
 \setlength{\parindent}{15pt}
 
 \title{How to use {\sf Make} to automatically update projects dependent upon {\sf R} and \LaTeX}
@@ -92,10 +94,97 @@ Importantly, the instructions line must be indented with a tab, if you use space
 
 For our tutorial, we will use a project with the following dependency structure: a \LaTeX\ manuscript that relies on a figure and some results from two {\sf R} scripts, which, in turn, rely on a single csv data file. We also want to use {\sf git} as a version control system for all the files in our project, and sync any local changes with a remote repository. In particular, we want to send our \LaTeX\ manuscript to a remote repo so that we can download it into {\sf Overleaf} and use all its handy features. \emph{Note, if changes are made in Overleaf then those changes must be ``pulled'' to the local repository to see them. It is simplest to start every work session by pulling changes from the remote repository, so you stay synced up. If you want to take your work in a new direction, then learn about making ``branches'' in {\sf git}. If you don't understand what I am talking about read Jessi's tutorial, linked above.}   
 
-The repository at \url{https://github.com/JHarrisonEcoEvo/Reproducible_workflow_tutorial} emulates the project structure verbally defined above. Clone this repository and use it to practice! The file ``main.tex'' will be our example manuscript. This also functions as a simple \LaTeX\ template that one could use for scientific manuscripts. There are some tips and tricks in this file, and a justification for using \LaTeX, so it is worth a scan. There are also two \.R scripts in the example folder, a \.sty file defining our \LaTeX\ style, a directory holding the data, a directory holding the results, and of course a Makefile. 
+The repository at \url{https://github.com/JHarrisonEcoEvo/Reproducible_workflow_tutorial} emulates the project structure verbally defined above. Clone this repository and use it to practice! The file ``main.tex'' will be our example manuscript (with figures, tables, and code). This also functions as a simple \LaTeX\ template that one could use for scientific manuscripts. There are some tips and tricks in this file, and a justification for using \LaTeX, so it is worth a scan. There are also two \.R scripts in the example folder, a \.sty file defining our \LaTeX\ style, a directory holding the data, a directory holding the results, and of course a Makefile. 
 
 \subsubsection{Example code}
 
-\verbatiminput{linearModel.R}
+Navigate to the cloned example directory and open the Makefile (use {\sf less} or a text editor). It should look like this (with a few additions not shown here): 
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+
+\noindent manuscript.pdf: main.tex\\
+\tab pdflatex -jobname=manuscript main.tex
+
+\noindent main.tex: linearModel.R scatterplot.R\\
+\tab Rscript linearModel.R\\
+\tab Rscript scatterplot.R\\
+\tab latex main.tex 
+
+\noindent linearModel.R: data/testdata.csv\\
+\tab Rscript linearModel.R
+
+\noindent scatterplot.R: data/testdata.csv\\
+\tab Rscript scatterplot.R
+
+To reiterate, the use of a tab to indent the instruction line following each dependency chain is critical. Also, the ``:'' after the target file is critical as well.
+
+\noindent To break this code down, we are saying:
+
+\begin{enumerate}
+\item Our manuscript.pdf depends upon main.tex, which is our \LaTeX\ file.
+\item main.tex depends upon the two R scripts and when they change we should run them and rebuild maint.tex
+\item scatterplot.R, which is a script that makes a scatterplot, depends upon some data. We should rerun it if the data are updated.
+\item linearModel.R, which is a script that runs a linear model and outputs the results as a table. As before, if the data change then the script should be rerun.
+\end{enumerate}
+
+Underneath each dependency structure is an instruction line for what to do if any of the dependencies have changed. {\sf Make} sense?
+
+\emph{Importantly, linearModel.R outputs the results of a linear model into \LaTeX\ format using {\sf xtable}, which is a super handy R package that translates matrix-like objects into table format. Read this script for an example of how to do this. It is very useful!}
+
+Note, you can put all sorts of {\sf bash} commands into the instruction lines. If you do need to change directories, then you must put the call to cd on the same line, using the line extension command, the backslash (\textbackslash). For instance, one could do this to change into the directory R before running a script, 
+
+target: dependency\\
+\tab cd R;\textbackslash\\
+\tab Rscript myprogram.R
+
+Note, this is just an example, in this case it would make more sense to just put the whole relative path to the script in the call to {\sf Rscript} (i.e. Rscript ./R/myprogram.R"
+
+\subsubsection{Adding {\sf git} to our makefile}
+
+Lets say we want to commit and push any changes to any file whenever we build. NOTE: this may not be ideal for many reasons, including 1.) one normally does not want to commit every single change, however small; 2.) the easiest way to auto commit and push is to use a standard commit message, which is not helpful at all when looking through ones version history. That said, I often edit work locally, then need to push it to {\sf Overleaf} and the convenience of doing this automatically in the makefile trumps the very real concerns I note above. For important script commits, or data commits, it is wise to provide a more detailed commit message!
+
+Caveats aside, one way to call {\sf git} as needed is to make a variable in the makefile. A variable can save quite a bit of typing (and of course you could get quite creative with variables, if desired).
+
+We can augment our original makefile, thus:
+
+send\_overleaf=git commit -m "auto commit from make" \$\textasciicircum\ \$$@$;git push
+
+manuscript.pdf: main.tex\\
+\tab pdflatex -jobname=manuscript main.tex
+
+main.tex: linearModel.R scatterplot.R\\
+\tab Rscript linearModel.R\\
+\tab Rscript scatterplot.R\\
+\tab latex main.tex\\
+\tab \${send\_overleaf}
+
+linearModel.R: ./data/testdata.csv\\
+\tab Rscript linearModel.R\\
+\tab \${send\_overleaf}
+
+scatterplot.R: ./data/testdata.csv\\
+\tab Rscript scatterplot.R\\
+\tab \${send\_overleaf}
+
+Note that we assign a variable, called ``send\_overleaf'', to perform git commit and git push for us. The part of the code that says \$\textasciicircum\ is an automatic variable that stands for all the dependent files. The \$$@$ is an automatic variable that stands for the target. So we are saying we want to commit and push the dependent and target files. Lots of other automatic variables exist. See Karl Broman's example (\url{https://kbroman.org/minimal_make/} for more.
+
+For bonus points check out the behemoth {\sf Make} documentation (\url{https://www.gnu.org/software/make/manual/make.html}). One can probably find all sorts of time saving tricks within, however keep in mind that simple makefiles are easy to glance at and understand. Even for collaborators that don't use {\sf Make}, they can probably figure out what is going on. If one adds too much to a makefile, then it could become a bit onerous to interpret. Interpretability is better than code compactness.
+
+
+\subsubsection{How to run {\sf Make}}
+
+Once you have a makefile in place, that works. All one has to do to run it, is navigate to the directory with the file and type ``make'' on the command line. That is it! The makefile will execute and any targets with dependencies that have changed will rebuild. 
+\subsubsection{Proof that all of this works--for the skeptics}
+
+First, clone the {\sf git} repo at \url{https://github.com/JHarrisonEcoEvo/Reproducible_workflow_tutorial}.
+
+Next, note the timestamp on all the files. 
+
+First, change something in main.tex and run make. Only the manuscript and main.tex files will change in timestamp. 
+
+Do the same thing for one of the R scripts. The R script, main.tex, and manuscript files timestamps will change. 
+
+Ditto for the data. 
 
 \end{document}
+
+order of operations?
