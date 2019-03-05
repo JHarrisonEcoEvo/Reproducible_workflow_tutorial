@@ -102,7 +102,13 @@ As mentioned, a benefit of \LaTeX\  is easy, streamlined citation incorporation.
 
 RECOMMENDED: You can also link your citation manager to your Overleaf project. See how to do that by clicking \href{https://www.overleaf.com/learn/latex/Bibliography_management_with_bibtex}{(here)}. This is very handy since you can simply refresh as needed to quickly bring new citations into your manuscript. Note where we define the bibliography after the acknowledgements. At that point we specify style. You can download citation styles for many journals, so never reformat citations by hand!
 
-TIP: Use \$\textbackslash Sexpr\{X = 2:10;length(X)\}\$ to add R code output straight inline. One has to change the .tex ending to .Rtex for this to work right (at least with Overleaf). See more here at this knitr tutorial: \url{https://www.overleaf.com/learn/latex/Knitr}
+TIP:  
+To add R code to your document one has to first change the .tex ending to .Rtex (at least with Overleaf). See actual Tex file for example of how to add a code chunk.
+%<<echo=FALSE>>= 
+%Your code
+%@ %end of chunk
+
+Use \$\textbackslash Sexpr\{X = 2:10;length(X)\}\$ to add R code output straight inline. See more here at this knitr tutorial: \url{https://www.overleaf.com/learn/latex/Knitr}
 
 \section*{Methods}
 
