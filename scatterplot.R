@@ -1,8 +1,7 @@
 dat <- read.csv("./data/testdata.csv")
  
-jpeg(width = 8, 
+pdf(width = 8, 
     height = 8,
-    units = "in",
     file = "./results/scatterplot.pdf")
 plot(dat$rnorm.100..100.,
      dat$rnorm.100..10.,
