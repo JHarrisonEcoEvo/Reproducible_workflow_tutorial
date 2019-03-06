@@ -191,4 +191,12 @@ If you want to remove the stuff in your Overleaf project then use: \\
 git revert --mainline 1 HEAD\\
 git push overleaf master\\
 
+If you wanted to push your local repo to both overleaf and your master repo at the same time you could add something like this to your makefile (substitute as appropriate): \\
+send\_master=git commit -m ``auto commit from make'' \$\textasciicircum\ \$$@$;git push overleaf master\\
+
+manuscript.pdf: main.Rtex\\
+\tab pdflatex -jobname=manuscript main.Rtex\\
+\tab \$\{send\_overleaf\}\\
+\tab \$\{send\_master\} \\
+
 \end{document}
