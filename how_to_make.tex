@@ -180,6 +180,15 @@ Once you have a Makefile in place that works, all one has to do to run it is nav
 
 For bonus points check out the behemoth {\sf Make} documentation (\url{https://www.gnu.org/software/make/manual/make.html}). One can probably find all sorts of time saving tricks within, however keep in mind that simple Makefiles are easy to glance at and understand. Even for collaborators that don't use {\sf Make}, they can probably figure out what is going on. If one adds too much to a Makefile, then it could become a bit onerous to interpret. Interpretability is better than code compactness.
 
-\end{document}
+Also, if you wish to push your project to overleaf directly from a local repository you can see how to set that up here: \url{https://www.overleaf.com/learn/how-to/How_do_I_push_a_new_project_to_Overleaf_via_git%3F}
 
-order of operations?
+First, click on the Menu and go to ``git'', click it and copy the address to the Overleaf project. Then navigate to the local repo you want to push to Overleaf. Type the following commands (substitute your link for ``your link'').
+
+\noindent git remote add overleaf ``yourlink''\\
+git checkout master \\%checking out updates work tree and gets all the other stuff associated with a branch
+git pull overleaf master --allow-unrelated-histories\\
+If you want to remove the stuff in your Overleaf project then use: \\
+git revert --mainline 1 HEAD\\
+git push overleaf master\\
+
+\end{document}
