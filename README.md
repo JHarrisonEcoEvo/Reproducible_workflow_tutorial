@@ -122,6 +122,8 @@ Note that we assign a variable, called “send\_overleaf”, to perform git comm
 
 *Tip: patterns can be used in <span>Make</span> as well. For instance, you could use wildcards to select all files ending in csv or fastq. See Karl Broman’s example for more.*
 
+*Tip: place instructions on one line, separated by &&, to have Make stop if one of the instructions throws an error. Very helpful.*
+
 ### How to run <span>Make</span>
 
 Once you have a Makefile in place that works, all one has to do to run it is navigate to the directory with the file and type “make” on the command line. That is it! The Makefile will execute and any targets with dependencies that have changed will rebuild.
@@ -137,7 +139,9 @@ First, click on the Menu and go to “git”, click it and copy the address to t
 git remote add overleaf “yourlink”  
 git checkout master  
 git pull overleaf master –allow-unrelated-histories  
-If you want to remove the stuff in your Overleaf project then use:  
+
+If you want to remove the stuff in your Overleaf project then use:
+
 git revert –mainline 1 HEAD  
 git push overleaf master  
 
