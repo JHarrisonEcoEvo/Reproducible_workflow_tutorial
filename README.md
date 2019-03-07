@@ -104,11 +104,11 @@ manuscript.pdf: main.tex linearModel.R scatterplot.R ./data/testdata.csv
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pdflatex -jobname=manuscript main.tex  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${send\_overleaf}  
 
-main.tex: linearModel.R scatterplot.R
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Rscript linearModel.R
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Rscript scatterplot.R
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; latex main.tex
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${send\_overleaf}  
+main.tex: linearModel.R scatterplot.R  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Rscript linearModel.R  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Rscript scatterplot.R  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; latex main.tex  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${send\_overleaf}   
 
 linearModel.R: ./data/testdata.csv  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Rscript linearModel.R  
