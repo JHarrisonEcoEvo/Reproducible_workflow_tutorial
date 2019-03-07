@@ -50,19 +50,19 @@ The repository at <https://github.com/JHarrisonEcoEvo/Reproducible_workflow_tuto
 
 Navigate to the cloned example directory and open the Makefile (use <span>less</span> or a text editor). It should look like this (with a few additions not shown here):
 
-manuscript.pdf: main.tex linearModel.R scatterplot.R ./data/testdata.csv
-pdflatex -jobname=manuscript main.tex
+manuscript.pdf: main.tex linearModel.R scatterplot.R ./data/testdata.csv  
+    pdflatex -jobname=manuscript main.tex  
 
 main.tex: linearModel.R scatterplot.R  
+    Rscript linearModel.R  
+    Rscript scatterplot.R  
+    latex main.tex  
+
+linearModel.R: data/testdata.csv  
 Rscript linearModel.R  
+
+scatterplot.R: data/testdata.csv  
 Rscript scatterplot.R  
-latex main.tex  
-
-linearModel.R: data/testdata.csv
-Rscript linearModel.R
-
-scatterplot.R: data/testdata.csv
-Rscript scatterplot.R
 
 To reiterate, the use of a tab to indent the instruction line following each dependency chain is crucial. Also, the “:” after the target file is critical as well.
 
@@ -84,9 +84,9 @@ As mentioned, the order of rules matter. One should place the most important tar
 
 Note, you can put all sorts of <span>bash</span> commands into the instruction lines. If you do need to change directories, then you must put the call to cd on the same line, using the line extension command, the backslash (\\). For instance, one could do this to change into the directory R before running a script,
 
-target: dependency
-cd R;\\
-Rscript myprogram.R
+target: dependency  
+cd R;\\  
+Rscript myprogram.R  
 
 Note, this is just an example, in this case it would make more sense to just put the whole relative path to the script in the call to <span>Rscript</span> (i.e. Rscript ./R/myprogram.R"
 
@@ -98,25 +98,25 @@ Caveats aside, one way to call <span>git</span> as needed is to make a variable 
 
 We can augment our original Makefile, thus:
 
-send\_overleaf=git commit -m “auto commit from make” $^ $@;git push
+send\_overleaf=git commit -m “auto commit from make” $^ $@;git push  
 
-manuscript.pdf: main.tex linearModel.R scatterplot.R ./data/testdata.csv
-pdflatex -jobname=manuscript main.tex
-${send\_overleaf}
+manuscript.pdf: main.tex linearModel.R scatterplot.R ./data/testdata.csv  
+pdflatex -jobname=manuscript main.tex  
+${send\_overleaf}  
 
 main.tex: linearModel.R scatterplot.R
 Rscript linearModel.R
 Rscript scatterplot.R
 latex main.tex
-${send\_overleaf}
+${send\_overleaf}  
 
-linearModel.R: ./data/testdata.csv
-Rscript linearModel.R
-${send\_overleaf}
+linearModel.R: ./data/testdata.csv  
+Rscript linearModel.R  
+${send\_overleaf}  
 
-scatterplot.R: ./data/testdata.csv
-Rscript scatterplot.R
-${send\_overleaf}
+scatterplot.R: ./data/testdata.csv  
+Rscript scatterplot.R  
+${send\_overleaf}  
 
 Note that we assign a variable, called “send\_overleaf”, to perform git commit and git push for us. To call the variable we prefix it with $ and wrap it in either brackets or parantheses. The part of the code that says $^ is an automatic variable that stands for all the dependent files. The $@ is an automatic variable that stands for the target. So we are saying we want to commit and push all the dependent and target files. Lots of other automatic variables exist. See Karl Broman’s example (<https://kbroman.org/minimal_make/> for more.
 
@@ -134,16 +134,16 @@ Also, if you wish to push your project to overleaf directly from a local reposit
 
 First, click on the Menu and go to “git”, click it and copy the address to the Overleaf project. Then navigate to the local repo you want to push to Overleaf. Type the following commands (substitute your link for “your link”).
 
-git remote add overleaf “yourlink”
-git checkout master
-git pull overleaf master –allow-unrelated-histories
-If you want to remove the stuff in your Overleaf project then use:
-git revert –mainline 1 HEAD
-git push overleaf master
-If you wanted to push your local repo to both overleaf and your master repo at the same time you could add something like this to your makefile (substitute as appropriate):
-send\_master=git commit -m “auto commit from make” $^ $@;git push overleaf master
-manuscript.pdf: main.Rtex
-pdflatex -jobname=manuscript main.Rtex
-${send\_overleaf}
-${send\_master}
+git remote add overleaf “yourlink”  
+git checkout master  
+git pull overleaf master –allow-unrelated-histories  
+If you want to remove the stuff in your Overleaf project then use:  
+git revert –mainline 1 HEAD  
+git push overleaf master  
+If you wanted to push your local repo to both overleaf and your master repo at the same time you could add something like this to your makefile (substitute as appropriate):  
+send\_master=git commit -m “auto commit from make” $^ $@;git push overleaf master  
+manuscript.pdf: main.Rtex  
+pdflatex -jobname=manuscript main.Rtex  
+${send\_overleaf}  
+${send\_master}  
 
