@@ -53,10 +53,10 @@ Navigate to the cloned example directory and open the Makefile (use <span>less</
 manuscript.pdf: main.tex linearModel.R scatterplot.R ./data/testdata.csv
 pdflatex -jobname=manuscript main.tex
 
-main.tex: linearModel.R scatterplot.R
-Rscript linearModel.R
-Rscript scatterplot.R
-latex main.tex
+main.tex: linearModel.R scatterplot.R  
+Rscript linearModel.R  
+Rscript scatterplot.R  
+latex main.tex  
 
 linearModel.R: data/testdata.csv
 Rscript linearModel.R
