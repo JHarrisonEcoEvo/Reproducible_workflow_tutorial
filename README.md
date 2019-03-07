@@ -35,8 +35,8 @@ When one runs <span>Make</span> it looks for a “Makefile” that includes inst
 
 Inside a Makefile are a series of commands, called “rules”, following this structure:
 
-target: dependencies
-instructions
+target: dependencies  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; instructions
 
 where “target” is a file in your project, such as a manuscript; “dependencies” are the scripts, data, etc. that the target depends upon (e.g. the figures and results that go into your manuscript); and, “instructions” are things that must be done to the dependencies in order to successfully get the output that the target uses.
 
@@ -51,18 +51,18 @@ The repository at <https://github.com/JHarrisonEcoEvo/Reproducible_workflow_tuto
 Navigate to the cloned example directory and open the Makefile (use <span>less</span> or a text editor). It should look like this (with a few additions not shown here):
 
 manuscript.pdf: main.tex linearModel.R scatterplot.R ./data/testdata.csv  
-    pdflatex -jobname=manuscript main.tex  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pdflatex -jobname=manuscript main.tex  
 
 main.tex: linearModel.R scatterplot.R  
-    Rscript linearModel.R  
-    Rscript scatterplot.R  
-    latex main.tex  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Rscript linearModel.R  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Rscript scatterplot.R  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; latex main.tex  
 
 linearModel.R: data/testdata.csv  
-Rscript linearModel.R  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Rscript linearModel.R  
 
 scatterplot.R: data/testdata.csv  
-Rscript scatterplot.R  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Rscript scatterplot.R  
 
 To reiterate, the use of a tab to indent the instruction line following each dependency chain is crucial. Also, the “:” after the target file is critical as well.
 
@@ -85,8 +85,8 @@ As mentioned, the order of rules matter. One should place the most important tar
 Note, you can put all sorts of <span>bash</span> commands into the instruction lines. If you do need to change directories, then you must put the call to cd on the same line, using the line extension command, the backslash (\\). For instance, one could do this to change into the directory R before running a script,
 
 target: dependency  
-cd R;\\  
-Rscript myprogram.R  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cd R;\\  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Rscript myprogram.R  
 
 Note, this is just an example, in this case it would make more sense to just put the whole relative path to the script in the call to <span>Rscript</span> (i.e. Rscript ./R/myprogram.R"
 
@@ -101,22 +101,22 @@ We can augment our original Makefile, thus:
 send\_overleaf=git commit -m “auto commit from make” $^ $@;git push  
 
 manuscript.pdf: main.tex linearModel.R scatterplot.R ./data/testdata.csv  
-pdflatex -jobname=manuscript main.tex  
-${send\_overleaf}  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pdflatex -jobname=manuscript main.tex  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${send\_overleaf}  
 
 main.tex: linearModel.R scatterplot.R
-Rscript linearModel.R
-Rscript scatterplot.R
-latex main.tex
-${send\_overleaf}  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Rscript linearModel.R
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Rscript scatterplot.R
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; latex main.tex
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${send\_overleaf}  
 
 linearModel.R: ./data/testdata.csv  
-Rscript linearModel.R  
-${send\_overleaf}  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Rscript linearModel.R  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${send\_overleaf}  
 
 scatterplot.R: ./data/testdata.csv  
-Rscript scatterplot.R  
-${send\_overleaf}  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Rscript scatterplot.R  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${send\_overleaf}  
 
 Note that we assign a variable, called “send\_overleaf”, to perform git commit and git push for us. To call the variable we prefix it with $ and wrap it in either brackets or parantheses. The part of the code that says $^ is an automatic variable that stands for all the dependent files. The $@ is an automatic variable that stands for the target. So we are saying we want to commit and push all the dependent and target files. Lots of other automatic variables exist. See Karl Broman’s example (<https://kbroman.org/minimal_make/> for more.
 
@@ -140,10 +140,13 @@ git pull overleaf master –allow-unrelated-histories
 If you want to remove the stuff in your Overleaf project then use:  
 git revert –mainline 1 HEAD  
 git push overleaf master  
+
 If you wanted to push your local repo to both overleaf and your master repo at the same time you could add something like this to your makefile (substitute as appropriate):  
+
 send\_master=git commit -m “auto commit from make” $^ $@;git push overleaf master  
+
 manuscript.pdf: main.Rtex  
-pdflatex -jobname=manuscript main.Rtex  
-${send\_overleaf}  
-${send\_master}  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pdflatex -jobname=manuscript main.Rtex  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${send\_overleaf}  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${send\_master}  
 
